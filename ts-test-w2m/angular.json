@@ -15,11 +15,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/ts-test-w2m",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -30,14 +30,10 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/ddevs-shared/dist/index.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -56,9 +52,12 @@
               "outputHashing": "all"
             },
             "development": {
+              "buildOptimizer": false,
               "optimization": false,
+              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
@@ -67,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ts-test-w2m:build:production"
+              "browserTarget": "ts-test-w2m:build:production"
             },
             "development": {
-              "buildTarget": "ts-test-w2m:build:development"
+              "browserTarget": "ts-test-w2m:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ts-test-w2m:build"
+            "browserTarget": "ts-test-w2m:build"
           }
         },
         "test": {
@@ -95,6 +94,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/ddevs-shared/dist/index.css",
               "src/styles.scss"
             ],
             "scripts": []
