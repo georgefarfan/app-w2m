@@ -25,14 +25,19 @@ export const heroesReducer = createReducer(
     callState: LoadingState.INIT,
   })),
 
-  on(Actions.heroesList, Actions.addHeroe, (state) => ({
+  on(Actions.heroesList, Actions.addHeroe, Actions.removeHeroe, (state) => ({
     ...state,
     callState: LoadingState.LOADING,
   })),
 
-  on(Actions.heroesListSuccess, Actions.addHeoreSuccess, (state, action) => ({
-    ...state,
-    callState: LoadingState.LOADED,
-    data: action.data,
-  }))
+  on(
+    Actions.heroesListSuccess,
+    Actions.addHeroeSuccess,
+    Actions.removeHeroeSuccess,
+    (state, action) => ({
+      ...state,
+      callState: LoadingState.LOADED,
+      data: action.data,
+    })
+  )
 );

@@ -13,17 +13,33 @@ export const addHeroe = createAction(
   props<{ data: Heroe }>()
 );
 
-export const addHeoreSuccess = createAction(
-  '[Heroe] -  FIND HEROE SUCCESS',
+export const addHeroeSuccess = createAction(
+  '[Heroe] -  ADD HEROE SUCCESS',
   props<{ data: HeroesData }>()
 );
 
-export const findHeore = createAction(
-  '[Heroe] -  FIND HEROE',
-  props<{ data: string }>()
+export const removeHeroe = createAction(
+  '[Heroes] -  REMOVE HEROE',
+  props<{
+    data: Heroe;
+  }>()
 );
 
-export const findHeoreSuccess = createAction(
+export const removeHeroeSuccess = createAction(
+  '[Heroe] -  REMOVE HEROE SUCCESS',
+  props<{ data: HeroesData }>()
+);
+
+export const findHeroe = createAction(
+  '[Heroe] -  FIND HEROE',
+  props<{
+    data: {
+      id: string;
+    };
+  }>()
+);
+
+export const findHeroeSuccess = createAction(
   '[Heroe] -  FIND HEROE SUCCESS',
   props<{ data: HeroesData }>()
 );

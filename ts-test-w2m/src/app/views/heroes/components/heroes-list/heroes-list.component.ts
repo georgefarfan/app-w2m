@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Heroe } from 'src/app/shared/interfaces/heroes';
+import { removeHeroe } from 'src/app/store/heroes.actions';
 import { HeroesData } from 'src/app/store/heroes.model';
 import { selectHeroesData } from 'src/app/store/heroes.selector';
 
@@ -14,7 +15,7 @@ import { selectHeroesData } from 'src/app/store/heroes.selector';
   styleUrls: ['./heroes-list.component.scss'],
 })
 export class HeroesListComponent implements OnInit {
-  displayedColumns: string[] = ['firstName', 'lastName'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'actions'];
   dataSource = new MatTableDataSource<Heroe>([]);
   data$: Observable<HeroesData> = this.store.select(selectHeroesData);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -31,5 +32,13 @@ export class HeroesListComponent implements OnInit {
 
   onNewHeroe(): void {
     this.router.navigate(['/new']);
+  }
+
+  onDelete(heroe: Heroe): void {
+    this.store.dispatch(
+      removeHeroe({
+        data: heroe,
+      })
+    );
   }
 }
