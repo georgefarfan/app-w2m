@@ -1,20 +1,22 @@
 import { createAction, props } from '@ngrx/store';
 import { HeroesData } from './heroes.model';
-import { Heroe } from '../shared/models/heroes';
+import { Hero } from '../shared/models/heroes';
 
 export const init = createAction('[Heroes] -  INIT', props<{ data: any }>());
+
 export const heroesList = createAction('[Heroes] -  LOAD LIST');
 export const heroesListSuccess = createAction(
   '[Heroes] -  LOAD LIST SUCCESS',
   props<{ data: HeroesData }>()
 );
+
 export const addHeroe = createAction(
-  '[Heroes] -  ADD HEROE',
-  props<{ data: Heroe }>()
+  '[Heroes] -  ADD HERO',
+  props<{ data: Hero }>()
 );
 
 export const addHeroeSuccess = createAction(
-  '[Heroe] -  ADD HEROE SUCCESS',
+  '[Heroe] -  ADD HERO SUCCESS',
   props<{
     data: {
       heroes: HeroesData;
@@ -24,14 +26,14 @@ export const addHeroeSuccess = createAction(
 );
 
 export const updateHeroe = createAction(
-  '[Heroes] -  UPDATE HEROE',
+  '[Heroes] -  UPDATE HERO',
   props<{
-    data: Heroe;
+    data: Hero;
   }>()
 );
 
 export const updateHeroeSuccess = createAction(
-  '[Heroe] -  UPDATE HEROE SUCCESS',
+  '[Heroe] -  UPDATE HERO SUCCESS',
   props<{
     data: {
       heroes: HeroesData;
@@ -41,14 +43,14 @@ export const updateHeroeSuccess = createAction(
 );
 
 export const removeHeroe = createAction(
-  '[Heroes] -  REMOVE HEROE',
+  '[Heroes] -  REMOVE HERO',
   props<{
-    data: Heroe;
+    data: Hero;
   }>()
 );
 
 export const removeHeroeSuccess = createAction(
-  '[Heroe] -  REMOVE HEROE SUCCESS',
+  '[Heroe] -  REMOVE HERO SUCCESS',
   props<{
     data: {
       heroes: HeroesData;
@@ -58,7 +60,7 @@ export const removeHeroeSuccess = createAction(
 );
 
 export const findHeroe = createAction(
-  '[Heroe] -  FIND HEROE',
+  '[Heroe] -  FIND HERO',
   props<{
     data: {
       id: string;
@@ -67,6 +69,6 @@ export const findHeroe = createAction(
 );
 
 export const findHeroeSuccess = createAction(
-  '[Heroe] -  FIND HEROE SUCCESS',
-  props<{ data: Heroe }>()
+  '[Heroe] -  FIND HERO SUCCESS',
+  props<{ data: Hero }>()
 );

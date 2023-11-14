@@ -1,13 +1,15 @@
 import { FormControl } from '@angular/forms';
 
-export interface NewHeroeForm {
+export interface NewHeroForm {
+  heroName: FormControl<string | any>;
   firstName: FormControl<string | any>;
   lastName: FormControl<string | any>;
   description: FormControl<string | any>;
 }
 
-export interface EditHeroeForm {
+export interface EditHeroForm {
   id: FormControl<string | any>;
+  heroName: FormControl<string | any>;
   firstName: FormControl<string | any>;
   lastName: FormControl<string | any>;
   description: FormControl<string | any>;

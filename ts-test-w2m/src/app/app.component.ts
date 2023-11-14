@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterContentChecked,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { selectLoading, selectMessage } from './store/heroes.selector';
@@ -9,16 +14,24 @@ import { Observable, skip } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterContentChecked {
   message$: Observable<string> = this.store.select(selectMessage);
   loading$: Observable<boolean> = this.store.select(selectLoading);
 
-  constructor(private snackBar: MatSnackBar, private store: Store<{}>) {}
+  constructor(
+    private cdref: ChangeDetectorRef,
+    private snackBar: MatSnackBar,
+    private store: Store<{}>
+  ) {}
 
   ngOnInit(): void {
     this.message$.pipe(skip(1)).subscribe((message) => {
       this.openSnackBar(message);
     });
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdref.detectChanges();
   }
 
   openSnackBar(message: string) {

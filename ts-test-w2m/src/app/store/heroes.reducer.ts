@@ -1,16 +1,23 @@
 import { createReducer, on } from '@ngrx/store';
 import { CallState, HeroesData, LoadingState } from './heroes.model';
 import * as Actions from './heroes.actions';
-import { Heroe } from '../shared/models/heroes';
+import { Hero } from '../shared/models/heroes';
 
 export interface HeroesState {
   data: HeroesData;
   action: {
     message: string;
   };
-  heroeSelected: Heroe;
+  heroeSelected: Hero;
   callState: CallState;
 }
+
+const INITIAL_HERO_SELECTED = {
+  heroName: '',
+  firstName: '',
+  lastName: '',
+  description: '',
+};
 
 export const HEROES_INITIAL_STATE: HeroesState = {
   data: {
@@ -18,12 +25,7 @@ export const HEROES_INITIAL_STATE: HeroesState = {
     pageSize: 1,
     current_page: 1,
   },
-  heroeSelected: {
-    id: '',
-    firstName: '',
-    lastName: '',
-    description: '',
-  },
+  heroeSelected: INITIAL_HERO_SELECTED,
   action: {
     message: '',
   },
@@ -43,13 +45,18 @@ export const heroesReducer = createReducer(
     Actions.heroesList,
     Actions.addHeroe,
     Actions.removeHeroe,
-    Actions.findHeroe,
     Actions.updateHeroe,
     (state) => ({
       ...state,
       callState: LoadingState.LOADING,
     })
   ),
+
+  on(Actions.findHeroe, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+    heroeSelected: INITIAL_HERO_SELECTED,
+  })),
 
   on(Actions.findHeroeSuccess, (state, action) => ({
     ...state,

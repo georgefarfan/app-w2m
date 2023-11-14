@@ -1,4 +1,4 @@
-import { Heroe } from '../shared/models/heroes';
+import { Hero } from '../shared/models/heroes';
 
 export const enum LoadingState {
   INIT = 'INIT',
@@ -20,7 +20,7 @@ export function getError(callState: CallState): string | null {
 }
 
 export interface HeroesData {
-  heroes: Heroe[];
+  heroes: Hero[];
   pageSize: number;
   current_page: number;
 }

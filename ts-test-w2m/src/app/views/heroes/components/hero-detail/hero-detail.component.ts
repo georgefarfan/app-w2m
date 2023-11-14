@@ -3,27 +3,28 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, distinctUntilChanged, filter, map } from 'rxjs';
-import { EditHeroeForm } from 'src/app/shared/models/forms';
-import { Heroe } from 'src/app/shared/models/heroes';
+import { EditHeroForm } from 'src/app/shared/models/forms';
+import { Hero } from 'src/app/shared/models/heroes';
 import { updateHeroe, findHeroe } from 'src/app/store/heroes.actions';
 import { selectHeroe } from 'src/app/store/heroes.selector';
 
 @Component({
-  selector: 'app-heroes-detail',
-  templateUrl: './heroes-detail.component.html',
-  styleUrls: ['./heroes-detail.component.scss'],
+  selector: 'app-hero-detail',
+  templateUrl: './hero-detail.component.html',
+  styleUrls: ['./hero-detail.component.scss'],
 })
-export class HeroesDetailComponent implements OnInit, OnDestroy {
+export class HeroDetailComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();
 
   private _id: string = '';
-  form: FormGroup<EditHeroeForm> = this.fb.group({
+  form: FormGroup<EditHeroForm> = this.fb.group({
     id: ['', Validators.required],
+    heroName: ['', Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     description: [''],
   });
-  heroeSelected$: Observable<Heroe> = this.store.select(selectHeroe);
+  heroeSelected$: Observable<Hero> = this.store.select(selectHeroe);
 
   constructor(
     private store: Store<{}>,
@@ -44,11 +45,10 @@ export class HeroesDetailComponent implements OnInit, OnDestroy {
         map((params) => params['id'])
       )
       .subscribe((id: string) => {
-        this._id = id;
         this.store.dispatch(
           findHeroe({
             data: {
-              id: this._id,
+              id,
             },
           })
         );
@@ -57,6 +57,7 @@ export class HeroesDetailComponent implements OnInit, OnDestroy {
     this.heroeSelected$.subscribe((heroe) => {
       this.form.patchValue({
         id: heroe.id,
+        heroName: heroe.heroName,
         firstName: heroe.firstName,
         lastName: heroe.lastName,
         description: heroe.description,
@@ -73,6 +74,7 @@ export class HeroesDetailComponent implements OnInit, OnDestroy {
       updateHeroe({
         data: {
           id: this.form.value.id,
+          heroName: this.form.value.heroName,
           firstName: this.form.value.firstName,
           lastName: this.form.value.lastName,
           description: this.form.value.description,

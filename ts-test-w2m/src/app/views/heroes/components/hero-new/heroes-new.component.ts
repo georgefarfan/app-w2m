@@ -3,18 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { NewHeroeForm } from 'src/app/shared/models/forms';
+import { NewHeroForm } from 'src/app/shared/models/forms';
 import { addHeroe } from 'src/app/store/heroes.actions';
 
 @Component({
-  selector: 'app-heroes-new',
-  templateUrl: './heroes-new.component.html',
-  styleUrls: ['./heroes-new.component.scss'],
+  selector: 'app-hero-new',
+  templateUrl: './hero-new.component.html',
+  styleUrls: ['./hero-new.component.scss'],
 })
-export class HeroesNewComponent implements OnInit, OnDestroy {
+export class HeroNewComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();
 
-  form: FormGroup<NewHeroeForm> = this.fb.group({
+  form: FormGroup<NewHeroForm> = this.fb.group({
+    heroName: ['', Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     description: [''],
@@ -38,6 +39,7 @@ export class HeroesNewComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       addHeroe({
         data: {
+          heroName: this.form.value.heroName,
           firstName: this.form.value.firstName,
           lastName: this.form.value.lastName,
           description: this.form.value.description,

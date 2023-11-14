@@ -12,6 +12,7 @@
 
      "HEROES": {
         "LIST": {
+            "HERO_NAME": "Name",
             "FIRST_NAME": "First name",
             "LAST_NAME": "Last name",
             "DESCRIPTION": "Description"
@@ -29,8 +30,8 @@
             }
         },
         "REMOVE": {
-            "TITLE": "Remove heroe",
-            "DESCRIPTION": "Are you sure do remove heroe?",
+            "TITLE": "Remove hero",
+            "DESCRIPTION": "Are you sure do remove {{x}}?",
             "MESSAGE": {
                 "SUCCESS":"Heroe '{{x}}' removed"
             }

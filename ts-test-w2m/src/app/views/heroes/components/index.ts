@@ -1,9 +1,9 @@
-import { HeroesDetailComponent } from './heroes-detail/heroes-detail.component';
+import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroesListComponent } from './heroes-list/heroes-list.component';
-import { HeroesNewComponent } from './heroes-new/heroes-new.component';
+import { HeroNewComponent } from './hero-new/heroes-new.component';
 
 export const COMPONENTS = [
   HeroesListComponent,
-  HeroesDetailComponent,
-  HeroesNewComponent,
+  HeroDetailComponent,
+  HeroNewComponent,
 ];

@@ -10,6 +10,17 @@
       (ngSubmit)="onSubmit()"
     >
       <mat-form-field>
+        <mat-label>{{ "HEROES.LIST.HERO_NAME" | translate }}</mat-label>
+        <input
+          matInput
+          placeholder="..."
+          formControlName="heroName"
+          required
+          upperCase
+        />
+      </mat-form-field>
+
+      <mat-form-field>
         <mat-label>{{ "HEROES.LIST.FIRST_NAME" | translate }}</mat-label>
         <input
           matInput

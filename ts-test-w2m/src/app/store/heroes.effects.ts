@@ -14,7 +14,7 @@ import {
   updateHeroeSuccess,
 } from './heroes.actions';
 import { map, mergeMap, switchMap, timer } from 'rxjs';
-import { Heroe } from '../shared/models/heroes';
+import { Hero } from '../shared/models/heroes';
 import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuidv4 } from 'uuid';
 import { HeroesData } from './heroes.model';
@@ -36,7 +36,8 @@ export class HeroesEffects {
           switchMap(() =>
             this.sessionStorageService.getHeroes().pipe(
               map((data) => {
-                const { firstName, lastName, description } = params.data;
+                const { firstName, lastName, description, heroName } =
+                  params.data;
 
                 const heroes = this.updateHeroesData(
                   data,
@@ -44,6 +45,7 @@ export class HeroesEffects {
                     firstName,
                     lastName,
                     description,
+                    heroName,
                   },
                   HeroeActions.NEW
                 );
@@ -54,7 +56,7 @@ export class HeroesEffects {
                     message: this.translateService.instant(
                       'HEROES.ADD.MESSAGE.SUCCESS',
                       {
-                        x: firstName,
+                        x: heroName,
                       }
                     ),
                   },
@@ -76,12 +78,14 @@ export class HeroesEffects {
           switchMap(() =>
             this.sessionStorageService.getHeroes().pipe(
               map((data) => {
-                const { id, firstName, lastName, description } = params.data;
+                const { id, firstName, lastName, description, heroName } =
+                  params.data;
 
                 const heroes = this.updateHeroesData(
                   data,
                   {
                     id,
+                    heroName,
                     firstName,
                     lastName,
                     description,
@@ -95,7 +99,7 @@ export class HeroesEffects {
                     message: this.translateService.instant(
                       'HEROES.EDIT.MESSAGE.SUCCESS',
                       {
-                        x: firstName,
+                        x: heroName,
                       }
                     ),
                   },
@@ -138,12 +142,14 @@ export class HeroesEffects {
           switchMap(() =>
             this.sessionStorageService.getHeroes().pipe(
               map((data) => {
-                const { id, firstName, lastName, description } = params.data;
+                const { id, firstName, lastName, description, heroName } =
+                  params.data;
 
                 const heroes = this.updateHeroesData(
                   data,
                   {
                     id,
+                    heroName,
                     firstName,
                     lastName,
                     description,
@@ -157,7 +163,7 @@ export class HeroesEffects {
                     message: this.translateService.instant(
                       'HEROES.REMOVE.MESSAGE.SUCCESS',
                       {
-                        x: firstName,
+                        x: heroName,
                       }
                     ),
                   },
@@ -196,20 +202,21 @@ export class HeroesEffects {
     private translateService: TranslateService
   ) {}
 
-  private findHeroe(data: HeroesData, id: string): Heroe {
-    return data.heroes.find((h) => h.id === id) as Heroe;
+  private findHeroe(data: HeroesData, id: string): Hero {
+    return data.heroes.find((h) => h.id === id) as Hero;
   }
 
   private updateHeroesData(
     data: HeroesData,
-    params: Heroe,
+    params: Hero,
     action: HeroeActions
   ): HeroesData {
     switch (action) {
       case HeroeActions.NEW:
-        let newHeroe: Heroe = {
+        let newHeroe: Hero = {
           id: uuidv4(),
           firstName: params.firstName,
+          heroName: params.heroName,
           lastName: params.lastName,
           description: params.description,
         };
@@ -217,19 +224,21 @@ export class HeroesEffects {
         data?.heroes.push(newHeroe);
         break;
       case HeroeActions.EDIT:
-        let updateHeroe: Heroe = {
+        let updateHeroe: Hero = {
           id: params.id,
           firstName: params.firstName,
+          heroName: params.heroName,
           lastName: params.lastName,
           description: params.description,
         };
         data = {
           ...data,
-          heroes: data.heroes.reduce((accu: Heroe[], curr: Heroe) => {
+          heroes: data.heroes.reduce((accu: Hero[], curr: Hero) => {
             let heroe = curr;
             if (curr.id === updateHeroe.id) {
               heroe = {
                 ...heroe,
+                heroName: params.heroName,
                 firstName: updateHeroe.firstName,
                 lastName: updateHeroe.lastName,
                 description: updateHeroe.description,

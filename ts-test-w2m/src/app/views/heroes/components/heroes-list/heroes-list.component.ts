@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, debounceTime } from 'rxjs';
 import { BaseDialogComponent } from 'src/app/shared/components/base-dialog/base-dialog.component';
-import { Heroe } from 'src/app/shared/models/heroes';
+import { Hero } from 'src/app/shared/models/heroes';
 import { removeHeroe } from 'src/app/store/heroes.actions';
 import { HeroesData } from 'src/app/store/heroes.model';
 import { selectHeroesData } from 'src/app/store/heroes.selector';
@@ -22,12 +22,13 @@ export class HeroesListComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();
   filterValue: string = '';
   displayedColumns: string[] = [
+    'heroName',
     'firstName',
     'lastName',
     'description',
     'actions',
   ];
-  dataSource = new MatTableDataSource<Heroe>([]);
+  dataSource = new MatTableDataSource<Hero>([]);
   data$: Observable<HeroesData> = this.store.select(selectHeroesData);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   textControl = new FormControl();
@@ -56,16 +57,21 @@ export class HeroesListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/new']);
   }
 
-  onEdit(heroe: Heroe): void {
-    this.router.navigate([`/detail/${heroe.id}`]);
+  onEdit(hero: Hero): void {
+    this.router.navigate([`/detail/${hero.id}`]);
   }
 
-  onDelete(heroe: Heroe): void {
+  onDelete(hero: Hero): void {
     const dialogRef = this.dialog.open(BaseDialogComponent, {
       width: '450px',
       data: {
         title: this.translateService.instant('HEROES.REMOVE.TITLE'),
-        description: this.translateService.instant('HEROES.REMOVE.DESCRIPTION'),
+        description: this.translateService.instant(
+          'HEROES.REMOVE.DESCRIPTION',
+          {
+            x: hero.heroName,
+          }
+        ),
       },
     });
 
@@ -73,7 +79,7 @@ export class HeroesListComponent implements OnInit, OnDestroy {
       if (result.action) {
         this.store.dispatch(
           removeHeroe({
-            data: heroe,
+            data: hero,
           })
         );
       }
