@@ -1,0 +1,18 @@
+.spinner-container {
+  height: 100%;
+  z-index: 1000;
+  position: absolute;
+  width: 100%;
+  background: #dddddd91;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-container {
+  height: calc(100vh - 250px);
+  background: #f7f7f724;
+  padding: 4rem;
+  border: 2px solid #747474;
+}

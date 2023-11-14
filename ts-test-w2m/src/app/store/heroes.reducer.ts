@@ -22,6 +22,7 @@ export const HEROES_INITIAL_STATE: HeroesState = {
     id: '',
     firstName: '',
     lastName: '',
+    description: '',
   },
   action: {
     message: '',
@@ -38,14 +39,21 @@ export const heroesReducer = createReducer(
     callState: LoadingState.INIT,
   })),
 
-  on(Actions.heroesList, Actions.addHeroe, Actions.removeHeroe, (state) => ({
-    ...state,
-    callState: LoadingState.LOADING,
-  })),
+  on(
+    Actions.heroesList,
+    Actions.addHeroe,
+    Actions.removeHeroe,
+    Actions.findHeroe,
+    Actions.updateHeroe,
+    (state) => ({
+      ...state,
+      callState: LoadingState.LOADING,
+    })
+  ),
 
   on(Actions.findHeroeSuccess, (state, action) => ({
     ...state,
-    callState: LoadingState.LOADING,
+    callState: LoadingState.LOADED,
     heroeSelected: action.data,
   })),
 

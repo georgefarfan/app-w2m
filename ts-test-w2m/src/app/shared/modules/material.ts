@@ -6,6 +6,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 export const MATERIAL_COMPONENTS = [
   MatTableModule,
@@ -16,4 +17,5 @@ export const MATERIAL_COMPONENTS = [
   MatIconModule,
   MatSnackBarModule,
   MatDialogModule,
+  MatProgressSpinnerModule,
 ];

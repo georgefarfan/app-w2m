@@ -21,6 +21,7 @@ export class HeroesDetailComponent implements OnInit, OnDestroy {
     id: ['', Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
+    description: [''],
   });
   heroeSelected$: Observable<Heroe> = this.store.select(selectHeroe);
 
@@ -58,6 +59,7 @@ export class HeroesDetailComponent implements OnInit, OnDestroy {
         id: heroe.id,
         firstName: heroe.firstName,
         lastName: heroe.lastName,
+        description: heroe.description,
       });
     });
   }
@@ -73,6 +75,7 @@ export class HeroesDetailComponent implements OnInit, OnDestroy {
           id: this.form.value.id,
           firstName: this.form.value.firstName,
           lastName: this.form.value.lastName,
+          description: this.form.value.description,
         },
       })
     );

@@ -1,5 +1,9 @@
 <div class="flex-col">
-  <div class="d-flex-row justify-content-between align-items-center mb-2">
+  <div class="d-flex align-items-center justify-content-center">
+    <h1 class="f-bold title">{{ "TITLE" | translate }} 🚀</h1>
+  </div>
+
+  <div class="d-flex-row justify-content-between align-items-center mt-4 mb-2">
     <ng-container *ngTemplateOutlet="search"> </ng-container>
 
     <button mat-raised-button color="primary" (click)="onNewHeroe()">
@@ -7,53 +11,67 @@
     </button>
   </div>
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mb-4">
-    <!-- FirstName Column -->
-    <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ "HEROES.LIST.FIRST_NAME" | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
-    </ng-container>
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mb-4">
+      <!-- FirstName Column -->
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "HEROES.LIST.FIRST_NAME" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+      </ng-container>
 
-    <!-- LastName Column -->
-    <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ "HEROES.LIST.LAST_NAME" | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
-    </ng-container>
+      <!-- LastName Column -->
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "HEROES.LIST.LAST_NAME" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+      </ng-container>
 
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <div class="d-flex justify-content-end mr-4">
-          <mat-icon
-            aria-hidden="false"
-            aria-label=""
-            fontIcon="edit"
-            class="cursor-pointer"
-            style="color: #3c3cff"
-            (click)="onEdit(element)"
-          ></mat-icon>
+      <!-- LastName Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "HEROES.LIST.DESCRIPTION" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <p class="mb-0" truncate>
+            {{ element.description }}
+          </p>
+        </td>
+      </ng-container>
 
-          <mat-icon
-            class="ml-2"
-            aria-hidden="false"
-            aria-label=""
-            class="cursor-pointer"
-            fontIcon="delete"
-            style="color: #f33939"
-            (click)="onDelete(element)"
-          ></mat-icon>
-        </div>
-      </td>
-    </ng-container>
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <div class="d-flex justify-content-end mr-4">
+            <mat-icon
+              aria-hidden="false"
+              aria-label=""
+              fontIcon="edit"
+              class="cursor-pointer"
+              style="color: #3c3cff"
+              (click)="onEdit(element)"
+            ></mat-icon>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+            <mat-icon
+              class="ml-2"
+              aria-hidden="false"
+              aria-label=""
+              class="cursor-pointer"
+              fontIcon="delete"
+              style="color: #f33939"
+              (click)="onDelete(element)"
+            ></mat-icon>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
 
   <mat-paginator
     [pageSizeOptions]="[5, 10, 25, 100]"

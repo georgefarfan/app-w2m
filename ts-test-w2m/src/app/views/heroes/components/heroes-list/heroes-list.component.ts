@@ -21,7 +21,12 @@ import { selectHeroesData } from 'src/app/store/heroes.selector';
 export class HeroesListComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();
   filterValue: string = '';
-  displayedColumns: string[] = ['firstName', 'lastName', 'actions'];
+  displayedColumns: string[] = [
+    'firstName',
+    'lastName',
+    'description',
+    'actions',
+  ];
   dataSource = new MatTableDataSource<Heroe>([]);
   data$: Observable<HeroesData> = this.store.select(selectHeroesData);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -57,7 +62,7 @@ export class HeroesListComponent implements OnInit, OnDestroy {
 
   onDelete(heroe: Heroe): void {
     const dialogRef = this.dialog.open(BaseDialogComponent, {
-      width: '250px',
+      width: '450px',
       data: {
         title: this.translateService.instant('HEROES.REMOVE.TITLE'),
         description: this.translateService.instant('HEROES.REMOVE.DESCRIPTION'),

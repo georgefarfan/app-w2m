@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { selectMessage } from './store/heroes.selector';
+import { selectLoading, selectMessage } from './store/heroes.selector';
 import { Observable, skip } from 'rxjs';
 
 @Component({
@@ -11,6 +11,7 @@ import { Observable, skip } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   message$: Observable<string> = this.store.select(selectMessage);
+  loading$: Observable<boolean> = this.store.select(selectLoading);
 
   constructor(private snackBar: MatSnackBar, private store: Store<{}>) {}
 

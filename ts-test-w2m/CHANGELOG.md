@@ -15,6 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Edit heroes
 - Snackbar
 - Uppercase Directive
+- Truncate Directive
+- Translate keys
+- Heroe description key
+
+### Changed
+
+- Style improvements
 
 ## [0.0.1] - 2023-11-13
 

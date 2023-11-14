@@ -17,6 +17,7 @@ export class HeroesNewComponent implements OnInit, OnDestroy {
   form: FormGroup<NewHeroeForm> = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
+    description: [''],
   });
 
   constructor(
@@ -39,6 +40,7 @@ export class HeroesNewComponent implements OnInit, OnDestroy {
         data: {
           firstName: this.form.value.firstName,
           lastName: this.form.value.lastName,
+          description: this.form.value.description,
         },
       })
     );

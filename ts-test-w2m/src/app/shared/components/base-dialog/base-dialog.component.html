@@ -1,10 +1,21 @@
 <h1 mat-dialog-title>{{ title }}</h1>
 <div mat-dialog-content>{{ description }}</div>
 <div mat-dialog-actions [align]="'end'">
-  <button mat-button mat-dialog-close (click)="onAction(false)">
+  <button
+    mat-raised-button
+    color="warn"
+    mat-dialog-close
+    (click)="onAction(false)"
+  >
     {{ "COMMON.NO" | translate }}
   </button>
-  <button mat-button mat-dialog-close cdkFocusInitial (click)="onAction(true)">
+  <button
+    mat-raised-button
+    mat-dialog-close
+    color="primary"
+    cdkFocusInitial
+    (click)="onAction(true)"
+  >
     {{ "COMMON.OK" | translate }}
   </button>
 </div>

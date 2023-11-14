@@ -13,7 +13,7 @@ import {
   updateHeroe,
   updateHeroeSuccess,
 } from './heroes.actions';
-import { map, mergeMap } from 'rxjs';
+import { map, mergeMap, switchMap, timer } from 'rxjs';
 import { Heroe } from '../shared/models/heroes';
 import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,37 +31,37 @@ export class HeroesEffects {
     this.actions$.pipe(
       ofType(addHeroe),
       mergeMap((params) => {
-        /**
-        *  timer(2000).pipe(
-          map(() => new YourAction('Delayed effect completed')),
-          catchError((error) => of(new YourAction('Delayed effect failed')))
-        );
-        */
-        return this.sessionStorageService.getHeroes().pipe(
-          map((heroes) => {
-            const { firstName, lastName } = params.data;
+        // Put timer for simulate the call http request
+        return timer(1000).pipe(
+          switchMap(() =>
+            this.sessionStorageService.getHeroes().pipe(
+              map((data) => {
+                const { firstName, lastName, description } = params.data;
 
-            this.updateHeroesData(
-              heroes,
-              {
-                firstName,
-                lastName,
-              },
-              HeroeActions.NEW
-            );
-
-            return addHeroeSuccess({
-              data: {
-                heroes,
-                message: this.translateService.instant(
-                  'HEROES.ADD.MESSAGE.SUCCESS',
+                const heroes = this.updateHeroesData(
+                  data,
                   {
-                    x: firstName,
-                  }
-                ),
-              },
-            });
-          })
+                    firstName,
+                    lastName,
+                    description,
+                  },
+                  HeroeActions.NEW
+                );
+
+                return addHeroeSuccess({
+                  data: {
+                    heroes,
+                    message: this.translateService.instant(
+                      'HEROES.ADD.MESSAGE.SUCCESS',
+                      {
+                        x: firstName,
+                      }
+                    ),
+                  },
+                });
+              })
+            )
+          )
         );
       })
     )
@@ -71,32 +71,38 @@ export class HeroesEffects {
     this.actions$.pipe(
       ofType(updateHeroe),
       mergeMap((params) => {
-        return this.sessionStorageService.getHeroes().pipe(
-          map((heroes) => {
-            const { id, firstName, lastName } = params.data;
+        // Put timer for simulate the call http request
+        return timer(1000).pipe(
+          switchMap(() =>
+            this.sessionStorageService.getHeroes().pipe(
+              map((data) => {
+                const { id, firstName, lastName, description } = params.data;
 
-            this.updateHeroesData(
-              heroes,
-              {
-                id,
-                firstName,
-                lastName,
-              },
-              HeroeActions.EDIT
-            );
-
-            return updateHeroeSuccess({
-              data: {
-                heroes,
-                message: this.translateService.instant(
-                  'HEROES.EDIT.MESSAGE.SUCCESS',
+                const heroes = this.updateHeroesData(
+                  data,
                   {
-                    x: firstName,
-                  }
-                ),
-              },
-            });
-          })
+                    id,
+                    firstName,
+                    lastName,
+                    description,
+                  },
+                  HeroeActions.EDIT
+                );
+
+                return updateHeroeSuccess({
+                  data: {
+                    heroes,
+                    message: this.translateService.instant(
+                      'HEROES.EDIT.MESSAGE.SUCCESS',
+                      {
+                        x: firstName,
+                      }
+                    ),
+                  },
+                });
+              })
+            )
+          )
         );
       })
     )
@@ -106,13 +112,19 @@ export class HeroesEffects {
     this.actions$.pipe(
       ofType(findHeroe),
       mergeMap((params) => {
-        return this.sessionStorageService.getHeroes().pipe(
-          map((data) => {
-            const { id } = params.data;
-            return findHeroeSuccess({
-              data: this.findHeroe(data, id),
-            });
-          })
+        // Put timer for simulate the call http request
+
+        return timer(1000).pipe(
+          switchMap(() =>
+            this.sessionStorageService.getHeroes().pipe(
+              map((data) => {
+                const { id } = params.data;
+                return findHeroeSuccess({
+                  data: this.findHeroe(data, id),
+                });
+              })
+            )
+          )
         );
       })
     )
@@ -122,32 +134,37 @@ export class HeroesEffects {
     this.actions$.pipe(
       ofType(removeHeroe),
       mergeMap((params) => {
-        return this.sessionStorageService.getHeroes().pipe(
-          map((data) => {
-            const { id, firstName, lastName } = params.data;
+        return timer(1000).pipe(
+          switchMap(() =>
+            this.sessionStorageService.getHeroes().pipe(
+              map((data) => {
+                const { id, firstName, lastName, description } = params.data;
 
-            this.updateHeroesData(
-              data,
-              {
-                id,
-                firstName,
-                lastName,
-              },
-              HeroeActions.REMOVE
-            );
-
-            return removeHeroeSuccess({
-              data: {
-                heroes: data,
-                message: this.translateService.instant(
-                  'HEROES.REMOVE.MESSAGE.SUCCESS',
+                const heroes = this.updateHeroesData(
+                  data,
                   {
-                    x: firstName,
-                  }
-                ),
-              },
-            });
-          })
+                    id,
+                    firstName,
+                    lastName,
+                    description,
+                  },
+                  HeroeActions.REMOVE
+                );
+
+                return removeHeroeSuccess({
+                  data: {
+                    heroes,
+                    message: this.translateService.instant(
+                      'HEROES.REMOVE.MESSAGE.SUCCESS',
+                      {
+                        x: firstName,
+                      }
+                    ),
+                  },
+                });
+              })
+            )
+          )
         );
       })
     )
@@ -157,12 +174,17 @@ export class HeroesEffects {
     this.actions$.pipe(
       ofType(heroesList),
       mergeMap(() => {
-        return this.sessionStorageService.getHeroes().pipe(
-          map((data) => {
-            return heroesListSuccess({
-              data,
-            });
-          })
+        // Put timer for simulate the call http request
+        return timer(1000).pipe(
+          switchMap(() =>
+            this.sessionStorageService.getHeroes().pipe(
+              map((data) => {
+                return heroesListSuccess({
+                  data,
+                });
+              })
+            )
+          )
         );
       })
     )
@@ -182,13 +204,14 @@ export class HeroesEffects {
     data: HeroesData,
     params: Heroe,
     action: HeroeActions
-  ) {
+  ): HeroesData {
     switch (action) {
       case HeroeActions.NEW:
         let newHeroe: Heroe = {
           id: uuidv4(),
           firstName: params.firstName,
           lastName: params.lastName,
+          description: params.description,
         };
 
         data?.heroes.push(newHeroe);
@@ -198,6 +221,7 @@ export class HeroesEffects {
           id: params.id,
           firstName: params.firstName,
           lastName: params.lastName,
+          description: params.description,
         };
         data = {
           ...data,
@@ -208,6 +232,7 @@ export class HeroesEffects {
                 ...heroe,
                 firstName: updateHeroe.firstName,
                 lastName: updateHeroe.lastName,
+                description: updateHeroe.description,
               };
             }
             accu.push(heroe);
@@ -229,5 +254,6 @@ export class HeroesEffects {
     }
 
     this.sessionStorageService.setHeroes(data);
+    return data;
   }
 }

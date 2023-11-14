@@ -1,4 +1,5 @@
 {
+    "TITLE": "APP TODO - {{ HEROES }}",
     "COMMON": {
         "ADD":"Add",
         "CREATE": "Create",
@@ -12,14 +13,17 @@
      "HEROES": {
         "LIST": {
             "FIRST_NAME": "First name",
-            "LAST_NAME": "Last name"
+            "LAST_NAME": "Last name",
+            "DESCRIPTION": "Description"
         },
         "ADD": {
+            "TITLE":"CREATE YOU HEROE",
             "MESSAGE": {
                 "SUCCESS":"Heroe '{{x}}' added"
             }
         },
         "EDIT": {
+            "TITLE":"EDIT HEROE - {{ {{ x }} }}",
             "MESSAGE": {
                 "SUCCESS":"Heroe '{{x}}' updated"
             }
