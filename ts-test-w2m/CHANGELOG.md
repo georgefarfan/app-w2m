@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Truncate Directive
 - Translate keys
 - Heroe description key
+- Docker added
 
 ### Changed
 
