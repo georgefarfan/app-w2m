@@ -4,6 +4,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export const MATERIAL_COMPONENTS = [
   MatTableModule,
@@ -12,4 +14,6 @@ export const MATERIAL_COMPONENTS = [
   MatInputModule,
   MatPaginatorModule,
   MatIconModule,
+  MatSnackBarModule,
+  MatDialogModule,
 ];

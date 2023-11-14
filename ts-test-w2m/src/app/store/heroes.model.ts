@@ -1,4 +1,4 @@
-import { Heroe } from '../shared/interfaces/heroes';
+import { Heroe } from '../shared/models/heroes';
 
 export const enum LoadingState {
   INIT = 'INIT',

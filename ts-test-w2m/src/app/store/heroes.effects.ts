@@ -8,9 +8,16 @@ import {
   heroesListSuccess,
   removeHeroe,
   removeHeroeSuccess,
+  findHeroe,
+  findHeroeSuccess,
+  updateHeroe,
+  updateHeroeSuccess,
 } from './heroes.actions';
-import { map } from 'rxjs';
-import { Heroe } from '../shared/interfaces/heroes';
+import { map, mergeMap } from 'rxjs';
+import { Heroe } from '../shared/models/heroes';
+import { TranslateService } from '@ngx-translate/core';
+import { v4 as uuidv4 } from 'uuid';
+import { HeroesData } from './heroes.model';
 
 enum HeroeActions {
   NEW,
@@ -20,84 +27,198 @@ enum HeroeActions {
 
 @Injectable()
 export class HeroesEffects {
-  addHeroe$ = createEffect(() =>
+  add$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addHeroe),
-      map((params) => {
-        const { firstName, lastName } = params.data;
-
-        this.updateHeroesData(
-          {
-            firstName,
-            lastName,
-          },
-          HeroeActions.NEW
+      mergeMap((params) => {
+        /**
+        *  timer(2000).pipe(
+          map(() => new YourAction('Delayed effect completed')),
+          catchError((error) => of(new YourAction('Delayed effect failed')))
         );
+        */
+        return this.sessionStorageService.getHeroes().pipe(
+          map((heroes) => {
+            const { firstName, lastName } = params.data;
 
-        return addHeroeSuccess({
-          data: this.sessionStorageService.getHeroes(),
-        });
+            this.updateHeroesData(
+              heroes,
+              {
+                firstName,
+                lastName,
+              },
+              HeroeActions.NEW
+            );
+
+            return addHeroeSuccess({
+              data: {
+                heroes,
+                message: this.translateService.instant(
+                  'HEROES.ADD.MESSAGE.SUCCESS',
+                  {
+                    x: firstName,
+                  }
+                ),
+              },
+            });
+          })
+        );
       })
     )
   );
 
-  removeHeroe$ = createEffect(() =>
+  edit$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateHeroe),
+      mergeMap((params) => {
+        return this.sessionStorageService.getHeroes().pipe(
+          map((heroes) => {
+            const { id, firstName, lastName } = params.data;
+
+            this.updateHeroesData(
+              heroes,
+              {
+                id,
+                firstName,
+                lastName,
+              },
+              HeroeActions.EDIT
+            );
+
+            return updateHeroeSuccess({
+              data: {
+                heroes,
+                message: this.translateService.instant(
+                  'HEROES.EDIT.MESSAGE.SUCCESS',
+                  {
+                    x: firstName,
+                  }
+                ),
+              },
+            });
+          })
+        );
+      })
+    )
+  );
+
+  find$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(findHeroe),
+      mergeMap((params) => {
+        return this.sessionStorageService.getHeroes().pipe(
+          map((data) => {
+            const { id } = params.data;
+            return findHeroeSuccess({
+              data: this.findHeroe(data, id),
+            });
+          })
+        );
+      })
+    )
+  );
+
+  remove$ = createEffect(() =>
     this.actions$.pipe(
       ofType(removeHeroe),
-      map((params) => {
-        const { id, firstName, lastName } = params.data;
+      mergeMap((params) => {
+        return this.sessionStorageService.getHeroes().pipe(
+          map((data) => {
+            const { id, firstName, lastName } = params.data;
 
-        this.updateHeroesData(
-          {
-            id,
-            firstName,
-            lastName,
-          },
-          HeroeActions.REMOVE
+            this.updateHeroesData(
+              data,
+              {
+                id,
+                firstName,
+                lastName,
+              },
+              HeroeActions.REMOVE
+            );
+
+            return removeHeroeSuccess({
+              data: {
+                heroes: data,
+                message: this.translateService.instant(
+                  'HEROES.REMOVE.MESSAGE.SUCCESS',
+                  {
+                    x: firstName,
+                  }
+                ),
+              },
+            });
+          })
         );
-
-        return removeHeroeSuccess({
-          data: this.sessionStorageService.getHeroes(),
-        });
       })
     )
   );
 
-  loadHeroeList$ = createEffect(() =>
+  list$ = createEffect(() =>
     this.actions$.pipe(
       ofType(heroesList),
-      map(() => {
-        return heroesListSuccess({
-          data: this.sessionStorageService.getHeroes(),
-        });
+      mergeMap(() => {
+        return this.sessionStorageService.getHeroes().pipe(
+          map((data) => {
+            return heroesListSuccess({
+              data,
+            });
+          })
+        );
       })
     )
   );
 
   constructor(
     private actions$: Actions,
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
+    private translateService: TranslateService
   ) {}
 
-  private updateHeroesData(params: Heroe, action: HeroeActions) {
-    let currentHeroesData = this.sessionStorageService.getHeroes();
+  private findHeroe(data: HeroesData, id: string): Heroe {
+    return data.heroes.find((h) => h.id === id) as Heroe;
+  }
 
+  private updateHeroesData(
+    data: HeroesData,
+    params: Heroe,
+    action: HeroeActions
+  ) {
     switch (action) {
       case HeroeActions.NEW:
         let newHeroe: Heroe = {
-          id: `${currentHeroesData.heroes.length + 1}`,
+          id: uuidv4(),
           firstName: params.firstName,
           lastName: params.lastName,
         };
 
-        currentHeroesData?.heroes.push(newHeroe);
+        data?.heroes.push(newHeroe);
         break;
       case HeroeActions.EDIT:
+        let updateHeroe: Heroe = {
+          id: params.id,
+          firstName: params.firstName,
+          lastName: params.lastName,
+        };
+        data = {
+          ...data,
+          heroes: data.heroes.reduce((accu: Heroe[], curr: Heroe) => {
+            let heroe = curr;
+            if (curr.id === updateHeroe.id) {
+              heroe = {
+                ...heroe,
+                firstName: updateHeroe.firstName,
+                lastName: updateHeroe.lastName,
+              };
+            }
+            accu.push(heroe);
+            return accu;
+          }, []),
+        };
         break;
       case HeroeActions.REMOVE:
-        currentHeroesData = {
-          ...currentHeroesData,
-          heroes: currentHeroesData.heroes.filter(
+        data = {
+          ...data,
+          heroes: data.heroes.filter(
             (heroe) => heroe.id && heroe.id !== params.id
           ),
         };
@@ -107,6 +228,6 @@ export class HeroesEffects {
         break;
     }
 
-    this.sessionStorageService.setHeroes(currentHeroesData);
+    this.sessionStorageService.setHeroes(data);
   }
 }

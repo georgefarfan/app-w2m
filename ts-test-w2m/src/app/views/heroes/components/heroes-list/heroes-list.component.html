@@ -1,9 +1,12 @@
 <div class="flex-col">
-  <div class="d-flex-row justify-content-end mb-2">
+  <div class="d-flex-row justify-content-between align-items-center mb-2">
+    <ng-container *ngTemplateOutlet="search"> </ng-container>
+
     <button mat-raised-button color="primary" (click)="onNewHeroe()">
       {{ "COMMON.ADD" | translate }}
     </button>
   </div>
+
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mb-4">
     <!-- FirstName Column -->
     <ng-container matColumnDef="firstName">
@@ -25,12 +28,26 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <mat-icon
-          aria-hidden="false"
-          aria-label=""
-          fontIcon="delete"
-          (click)="onDelete(element)"
-        ></mat-icon>
+        <div class="d-flex justify-content-end mr-4">
+          <mat-icon
+            aria-hidden="false"
+            aria-label=""
+            fontIcon="edit"
+            class="cursor-pointer"
+            style="color: #3c3cff"
+            (click)="onEdit(element)"
+          ></mat-icon>
+
+          <mat-icon
+            class="ml-2"
+            aria-hidden="false"
+            aria-label=""
+            class="cursor-pointer"
+            fontIcon="delete"
+            style="color: #f33939"
+            (click)="onDelete(element)"
+          ></mat-icon>
+        </div>
       </td>
     </ng-container>
 
@@ -42,4 +59,17 @@
     [pageSizeOptions]="[5, 10, 25, 100]"
     showFirstLastButtons
   ></mat-paginator>
+
+  <ng-template #search>
+    <div class="d-flex">
+      <input
+        matInput
+        [placeholder]="'COMMON.SEARCH' | translate"
+        type="text"
+        #search
+        [formControl]="textControl"
+        [(ngModel)]="filterValue"
+      />
+    </div>
+  </ng-template>
 </div>

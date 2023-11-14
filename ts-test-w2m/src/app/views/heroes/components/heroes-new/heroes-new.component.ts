@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { NewHeroeForm } from 'src/app/shared/models/forms';
 import { addHeroe } from 'src/app/store/heroes.actions';
 
 @Component({
@@ -9,8 +11,10 @@ import { addHeroe } from 'src/app/store/heroes.actions';
   templateUrl: './heroes-new.component.html',
   styleUrls: ['./heroes-new.component.scss'],
 })
-export class HeroesNewComponent {
-  form: FormGroup = this.fb.group({
+export class HeroesNewComponent implements OnInit, OnDestroy {
+  private readonly unsubscribe$ = new Subject<void>();
+
+  form: FormGroup<NewHeroeForm> = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
   });
@@ -20,6 +24,10 @@ export class HeroesNewComponent {
     private fb: FormBuilder,
     private router: Router
   ) {}
+
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {}
 
   goBack(): void {
     this.router.navigate(['/']);
@@ -34,5 +42,6 @@ export class HeroesNewComponent {
         },
       })
     );
+    this.goBack();
   }
 }

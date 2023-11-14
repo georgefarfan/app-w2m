@@ -11,12 +11,14 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MATERIAL_COMPONENTS } from './modules/material';
 import { SHARED_PIPES } from './pipes';
+import { SHARED_COMPONENTS } from './components';
+import { DIRECTIVES } from './directives';
 
 export function HttpLoaderFactory(http: HttpClient): any {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 @NgModule({
-  declarations: [...SHARED_PIPES],
+  declarations: [...SHARED_PIPES, ...SHARED_COMPONENTS, ...DIRECTIVES],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -33,6 +35,12 @@ export function HttpLoaderFactory(http: HttpClient): any {
   ],
   providers: [TranslateStore],
   bootstrap: [],
-  exports: [TranslateModule, ...SHARED_PIPES, ...MATERIAL_COMPONENTS],
+  exports: [
+    TranslateModule,
+    ...SHARED_PIPES,
+    ...SHARED_COMPONENTS,
+    ...DIRECTIVES,
+    ...MATERIAL_COMPONENTS,
+  ],
 })
 export class SharedModule {}

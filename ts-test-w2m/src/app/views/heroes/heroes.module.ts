@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HeroesRoutingModule } from './heroes-routing.module';
-import { HeroesDetailComponent } from './components/heroes-detail/heroes-detail.component';
-import { HeroesListComponent } from './components/heroes-list/heroes-list.component';
-import { HeroesNewComponent } from './components/heroes-new/heroes-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { COMPONENTS } from './components';
 
 @NgModule({
-  declarations: [
-    HeroesListComponent,
-    HeroesDetailComponent,
-    HeroesNewComponent,
-  ],
+  declarations: [...COMPONENTS],
   imports: [
+    CommonModule,
     SharedModule,
     HeroesRoutingModule,
     ReactiveFormsModule,

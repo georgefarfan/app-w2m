@@ -2,13 +2,34 @@
     "COMMON": {
         "ADD":"Add",
         "CREATE": "Create",
-        "CANCEL": "Cancel"
+        "EDIT": "Edit",
+        "CANCEL": "Cancel",
+        "SEARCH": "Search",
+        "OK": "Ok",
+        "NO": "No"
     },
 
      "HEROES": {
         "LIST": {
             "FIRST_NAME": "First name",
             "LAST_NAME": "Last name"
+        },
+        "ADD": {
+            "MESSAGE": {
+                "SUCCESS":"Heroe '{{x}}' added"
+            }
+        },
+        "EDIT": {
+            "MESSAGE": {
+                "SUCCESS":"Heroe '{{x}}' updated"
+            }
+        },
+        "REMOVE": {
+            "TITLE": "Remove heroe",
+            "DESCRIPTION": "Are you sure do remove heroe?",
+            "MESSAGE": {
+                "SUCCESS":"Heroe '{{x}}' removed"
+            }
         }
      }
 }

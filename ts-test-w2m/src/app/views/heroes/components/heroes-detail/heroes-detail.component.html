@@ -1,1 +1,34 @@
-<p>heroes-detail works!</p>
+<div>
+  <form class="d-flex-col" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>{{ "HEROES.LIST.FIRST_NAME" | translate }}</mat-label>
+      <input
+        matInput
+        placeholder="..."
+        formControlName="firstName"
+        required
+        upperCase
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ "HEROES.LIST.LAST_NAME" | translate }}</mat-label>
+      <input matInput placeholder="..." formControlName="lastName" required />
+    </mat-form-field>
+
+    <div class="d-flex">
+      <button mat-raised-button color="warn" (click)="goBack()">
+        {{ "COMMON.CANCEL" | translate }}
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="ml-2"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        {{ "COMMON.EDIT" | translate }}
+      </button>
+    </div>
+  </form>
+</div>

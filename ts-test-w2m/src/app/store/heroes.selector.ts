@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { HeroesState } from './heroes.reducer';
 import { HeroesData } from './heroes.model';
+import { Heroe } from '../shared/models/heroes';
 
 export const featureKey = 'heroes';
 
@@ -9,4 +10,14 @@ export const selectHeroes = createFeatureSelector<HeroesState>(featureKey);
 export const selectHeroesData = createSelector(
   selectHeroes,
   (state: HeroesState): HeroesData => state.data
+);
+
+export const selectMessage = createSelector(
+  selectHeroes,
+  (state: HeroesState): string => state.action.message
+);
+
+export const selectHeroe = createSelector(
+  selectHeroes,
+  (state: HeroesState): Heroe => state.heroeSelected
 );

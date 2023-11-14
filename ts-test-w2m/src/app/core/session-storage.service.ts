@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { heroesList } from '../store/heroes.actions';
 import { HeroesData } from '../store/heroes.model';
@@ -16,14 +16,14 @@ export class SessionStorageService {
     this.store.dispatch(heroesList());
   }
 
-  getHeroes(): HeroesData {
+  getHeroes(): Observable<HeroesData> {
     return localStorage && localStorage['heroes']
-      ? JSON.parse(localStorage['heroes'])
-      : {
+      ? of(JSON.parse(localStorage['heroes']))
+      : of({
           heroes: [],
           pageSize: 1,
           current_page: 1,
-        };
+        });
   }
 
   setHeroes(data: HeroesData): void {

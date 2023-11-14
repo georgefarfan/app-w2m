@@ -2,7 +2,13 @@
   <form class="d-flex-col" [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>{{ "HEROES.LIST.FIRST_NAME" | translate }}</mat-label>
-      <input matInput placeholder="..." formControlName="firstName" required />
+      <input
+        matInput
+        placeholder="..."
+        formControlName="firstName"
+        required
+        upperCase
+      />
     </mat-form-field>
 
     <mat-form-field>
